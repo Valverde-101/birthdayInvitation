@@ -35,155 +35,135 @@ function switchLanguage(lang) {
         }
     });
 
-    // Additional code for map button text
+    // Update map button text
     const mapWrapper = document.querySelector('.map-wrapper');
     const toggleMapBtn = document.querySelector('.toggle-map');
     
     if (toggleMapBtn && mapWrapper) {
         const isCollapsed = mapWrapper.classList.contains('collapsed');
-        if (lang === 'en') {
-            toggleMapBtn.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
-        } else {
-            toggleMapBtn.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
-        }
+        updateMapToggleText(toggleMapBtn, isCollapsed);
     }
 }
 
 // Form submission handling
 document.getElementById('rsvpForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const isAttending = document.getElementById('attend-yes').checked;
-    
-    // If not attending, set default values for all required fields
-    if (!isAttending) {
-        // Ensure guest details have valid values
-        const guestCount = 1;
+    if (!window.location.search.includes('success=true')) {
+        event.preventDefault();
         
-        // Make sure at least one guest has a name
-        if (document.getElementById('guestName1') && !document.getElementById('guestName1').value) {
-            document.getElementById('guestName1').value = document.getElementById('name').value || "Not Attending";
+        // Show loading state
+        const submitButton = document.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
+        submitButton.disabled = true;
+        
+        // Collect all guest data and prepare it for FormSubmit
+        const guestCount = parseInt(document.getElementById('guests').value) || 1;
+        
+        // Create serialized fields for guests
+        for (let i = 1; i <= guestCount; i++) {
+            if (document.getElementById(`guestName${i}`)) {
+                const input1 = document.createElement('input');
+                input1.type = 'hidden';
+                input1.name = `Guest_${i}_Name`;
+                input1.value = document.getElementById(`guestName${i}`).value || "Not Attending";
+                this.appendChild(input1);
+                
+                const input2 = document.createElement('input');
+                input2.type = 'hidden';
+                input2.name = `Guest_${i}_Meal`;
+                input2.value = document.getElementById(`guestMeal${i}`).value || "vegetarian";
+                this.appendChild(input2);
+            }
         }
         
-        // Make sure meal preference is selected
-        if (document.getElementById('guestMeal1') && !document.getElementById('guestMeal1').value) {
-            document.getElementById('guestMeal1').value = "vegetarian";
+        // Handle kids in a similar way
+        const kidCount = parseInt(document.getElementById('kidsCount').value) || 0;
+        for (let i = 1; i <= kidCount; i++) {
+            if (document.getElementById(`kidName${i}`)) {
+                const input1 = document.createElement('input');
+                input1.type = 'hidden';
+                input1.name = `Kid_${i}_Name`;
+                input1.value = document.getElementById(`kidName${i}`).value;
+                this.appendChild(input1);
+                
+                const input2 = document.createElement('input');
+                input2.type = 'hidden';
+                input2.name = `Kid_${i}_Age`;
+                input2.value = document.getElementById(`kidAge${i}`).value;
+                this.appendChild(input2);
+                
+                const input3 = document.createElement('input');
+                input3.type = 'hidden';
+                input3.name = `Kid_${i}_Likes`;
+                input3.value = document.getElementById(`kidLikes${i}`).value || "";
+                this.appendChild(input3);
+            }
         }
+        
+        // Save response locally as backup
+        const formData = {
+            name: document.getElementById('name').value,
+            attendance: document.querySelector('input[name="attendance"]:checked').value,
+            guests: document.getElementById('guests').value,
+            kidsCount: document.getElementById('kidsCount').value,
+            allergies: document.getElementById('allergies')?.value || "",
+            message: document.getElementById('message')?.value || ""
+        };
+        saveResponseLocally(formData);
+        
+        // Submit the form
+        this.submit();
+    } else {
+        // We've returned from successful submission
+        event.preventDefault();
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('rsvpForm').style.display = 'none';
+        launchConfetti();
+        launchBalloons();
+    }
+});
+
+// Check for success parameter on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize with 1 guest
+    generateGuestFields(1);
+    
+    // Check for success parameter
+    if (window.location.search.includes('success=true')) {
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('rsvpForm').style.display = 'none';
+        launchConfetti();
+        launchBalloons();
     }
     
-    // Continue with the existing form processing...
-    // Collect all guest data
-    const guestCount = parseInt(document.getElementById('guests').value) || 1;
-    const guests = [];
+    // Set up map toggle - THIS IS THE ONLY INSTANCE OF THIS CODE
+    const toggleMapBtn = document.querySelector('.toggle-map');
+    const mapWrapper = document.querySelector('.map-wrapper');
     
-    for (let i = 1; i <= guestCount; i++) {
-        guests.push({
-            name: document.getElementById(`guestName${i}`).value || "Not Attending",
-            meal: document.getElementById(`guestMeal${i}`).value || "vegetarian"
+    if (toggleMapBtn && mapWrapper) {
+        // Check if map should start collapsed (e.g., on mobile)
+        if (window.innerWidth < 768) {
+            mapWrapper.classList.add('collapsed');
+            updateMapToggleText(toggleMapBtn, true);
+        }
+        
+        toggleMapBtn.addEventListener('click', function() {
+            mapWrapper.classList.toggle('collapsed');
+            const isCollapsed = mapWrapper.classList.contains('collapsed');
+            updateMapToggleText(toggleMapBtn, isCollapsed);
         });
     }
     
-    // Collect all kid data
-    const kidCount = parseInt(document.getElementById('kidsCount').value) || 0;
-    const kids = [];
-    
-    for (let i = 1; i <= kidCount; i++) {
-        if (document.getElementById(`kidName${i}`)) {
-            kids.push({
-                name: document.getElementById(`kidName${i}`).value,
-                age: document.getElementById(`kidAge${i}`).value,
-                likes: document.getElementById(`kidLikes${i}`).value
-            });
-        }
-    }
-    
-    // Get form data
-    const formData = new FormData(this);
-    
-    // Add serialized guest and kids data (JSON stringified)
-    formData.append('guestsData', JSON.stringify(guests));
-    formData.append('kidsData', JSON.stringify(kids));
-    
-    // Console log for debugging
-    console.log('Submitting form with:');
-    console.log('Guests:', guests);
-    console.log('Kids:', kids);
-    
-    // IMPORTANT: Replace with your actual Google Form ID
-    const formId = '1FAIpQLSewjAHSlMdFghcsWMj0k9WO6iD4dt7GhFtaADvpkyGlEdVmjQ';
-    const googleFormUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse`;
-    
-    // IMPORTANT: Replace with your actual entry IDs from Google Form
-    const data = new URLSearchParams();
-    data.append('entry.559352220', formData.get('name'));
-    data.append('entry.877086558', formData.get('attendance'));
-    data.append('entry.924523986', formData.get('guests'));
-    data.append('entry.160349664', JSON.stringify(guests)); // Send guest details as JSON
-    data.append('entry.1260685378', formData.get('allergies'));
-    data.append('entry.443565211', formData.get('message'));
-    data.append('entry.186230675', formData.get('kidsCount')); // Add number of kids
-    data.append('entry.1751303409', JSON.stringify(kids)); // Send kids details as JSON
-    
-    // Send data to Google Forms
-    sendToGoogleForms(googleFormUrl, data);
-    
-    // Show success message
-    document.getElementById('successMessage').style.display = 'block';
-    document.getElementById('rsvpForm').style.display = 'none';
-    
-    // Launch animations
-    launchConfetti();
-    launchBalloons();
-    
-    // Log form field values
-    console.log('Form data being submitted:');
-    console.log('Name:', document.getElementById('name').value);
-    console.log('Attendance:', document.querySelector('input[name="attendance"]:checked')?.value);
-    console.log('Guests:', document.getElementById('guests').value);
-    console.log('Meal:', document.getElementById('meal').value);
-    console.log('Allergies:', document.getElementById('allergies').value);
-    console.log('Message:', document.getElementById('message').value);
+    // Rest of your initialization code...
 });
 
-function sendToGoogleForms(url, data) {
-    // Method 1: Using fetch API (subject to CORS issues)
-    fetch(url, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: data
-    }).catch(err => console.error('Error submitting form:', err));
-    
-    // Method 2: Using hidden iframe (more reliable for Google Forms)
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = url;
-    form.target = 'hidden-iframe';
-    
-    // Convert URLSearchParams to form fields
-    for (const [key, value] of data.entries()) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
+// Helper function for updating toggle button text
+function updateMapToggleText(button, isCollapsed) {
+    if (currentLanguage === 'en') {
+        button.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
+    } else {
+        button.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
     }
-    
-    document.body.appendChild(form);
-    iframe.name = 'hidden-iframe';
-    form.submit();
-    
-    // Clean up after submission
-    setTimeout(() => {
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-    }, 2000);
 }
 
 // Show/hide number of guests based on attendance
@@ -196,7 +176,6 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
             document.getElementById('kidsCount').parentElement,
             document.getElementById('kidsDetailsContainer'),
             document.getElementById('allergies').parentElement
-            // document.getElementById('message').parentElement
         ];
         
         if (this.value === 'yes') {
@@ -227,8 +206,6 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
         }
     });
 });
-
-// Add this after your existing guest count change handler
 
 // Handle dynamic guest details generation
 document.getElementById('guests').addEventListener('change', function() {
@@ -331,104 +308,26 @@ function generateKidsFields(count) {
     }
 }
 
-// Initialize the form on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize with 1 guest
-    generateGuestFields(1);
-    
-    // Check if kids count is > 0
-    const kidsCount = parseInt(document.getElementById('kidsCount').value) || 0;
-    if (kidsCount > 0) {
-        generateKidsFields(kidsCount);
-        document.getElementById('kidsDetailsContainer').style.display = 'block';
-    }
-    
-    // Rest of your existing DOMContentLoaded code...
-});
-
-// Add this code to synchronize the main name field with Guest 1 name field
-
-// Variable to track if user has manually edited the guest name
+// Auto-fill Guest 1 name from main name field
 let guestName1ManuallyEdited = false;
 
-// Listen for input on the main name field
 document.getElementById('name').addEventListener('input', function() {
-    // Only auto-fill if user hasn't manually edited the guest name field
     if (!guestName1ManuallyEdited && document.getElementById('guestName1')) {
         document.getElementById('guestName1').value = this.value;
     }
 });
 
-// Track if user manually edits the guest name field
 document.getElementById('guestDetailsContainer').addEventListener('input', function(event) {
     if (event.target && event.target.id === 'guestName1') {
-        // If values are different, mark as manually edited
-        if (event.target.value !== document.getElementById('name').value) {
-            guestName1ManuallyEdited = true;
-        } 
-        // If user makes it match again, allow auto-syncing again
-        else {
-            guestName1ManuallyEdited = false;
-        }
+        guestName1ManuallyEdited = event.target.value !== document.getElementById('name').value;
     }
 });
 
-// Reset manual edit flag when generating new guest fields
-const originalGenerateGuestFields = generateGuestFields;
-generateGuestFields = function(count) {
-    // Call the original function
-    originalGenerateGuestFields(count);
-    
-    // Reset the flag and sync the name again
-    guestName1ManuallyEdited = false;
-    
-    // Set Guest 1 name to main name if available
-    if (document.getElementById('guestName1') && document.getElementById('name')) {
-        document.getElementById('guestName1').value = document.getElementById('name').value;
-    }
-};
-
-// Sync the name field when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // Add this to your existing DOMContentLoaded handler
-    if (document.getElementById('guestName1') && document.getElementById('name')) {
-        document.getElementById('guestName1').value = document.getElementById('name').value;
-    }
-});
-
-function createConfetti() {
-    const confettiContainer = document.getElementById('confetti-container');
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.animationDelay = `${Math.random() * 3}s`;
-        confettiContainer.appendChild(confetti);
-    }
-}
-
-function createBalloons() {
-    const balloonContainer = document.getElementById('balloon-container');
-    for (let i = 0; i < 20; i++) {
-        const balloon = document.createElement('div');
-        balloon.className = 'balloon';
-        balloon.style.left = `${Math.random() * 100}%`;
-        balloon.style.animationDelay = `${Math.random() * 5}s`;
-        balloonContainer.appendChild(balloon);
-    }
-}
-
-window.onload = function() {
-    createConfetti();
-    createBalloons();
-};
-
-// Confetti celebration animation
+// Animation functions
 function launchConfetti() {
     const confettiContainer = document.getElementById('confetti-container');
     const colors = ['#FF61A6', '#7B5BE6', '#FFD166', '#06D6A0', '#118AB2'];
     
-    // Clear any existing confetti
     confettiContainer.innerHTML = '';
     
     for (let i = 0; i < 100; i++) {
@@ -445,33 +344,21 @@ function launchConfetti() {
         
         confettiContainer.appendChild(confetti);
         
-        // Use standard animations with fallbacks for broader compatibility
-        const startY = -10;
-        const endY = window.innerHeight;
-        const startRotation = 0;
-        const endRotation = 360 * Math.random();
-        const duration = Math.random() * 3000 + 2000;
-        
-        // Apply keyframe animation with JavaScript for better browser support
         confetti.animate([
-            { transform: `translateY(${startY}px) rotate(${startRotation}deg)`, opacity: 1 },
-            { transform: `translateY(${endY}px) rotate(${endRotation}deg)`, opacity: 0.3 }
+            { transform: `translateY(-10px) rotate(0deg)`, opacity: 1 },
+            { transform: `translateY(${window.innerHeight}px) rotate(${360 * Math.random()}deg)`, opacity: 0.3 }
         ], {
-            duration: duration,
+            duration: Math.random() * 3000 + 2000,
             easing: 'cubic-bezier(0.37, 1.04, 0.68, 0.98)',
             fill: 'forwards'
-        }).onfinish = () => {
-            confetti.remove();
-        };
+        }).onfinish = () => confetti.remove();
     }
 }
 
-// Floating balloon animation - FIXED
 function launchBalloons() {
     const balloonContainer = document.getElementById('balloon-container');
     const balloonEmojis = ['🎈', '🎈', '🎈', '🎀', '🎁', '🎉', '🎊', '🦄', '🧸'];
     
-    // Clear any existing balloons
     balloonContainer.innerHTML = '';
     
     for (let i = 0; i < 15; i++) {
@@ -485,7 +372,6 @@ function launchBalloons() {
             
             balloonContainer.appendChild(balloon);
             
-            // Create more reliable animation
             balloon.animate([
                 { transform: 'translateY(0) rotate(0deg)', opacity: 0 },
                 { transform: 'translateY(-20vh) rotate(-5deg)', opacity: 1, offset: 0.2 },
@@ -494,20 +380,22 @@ function launchBalloons() {
                 duration: Math.random() * 10000 + 10000,
                 easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                 fill: 'forwards'
-            }).onfinish = () => {
-                balloon.remove();
-            };
+            }).onfinish = () => balloon.remove();
         }, i * 500);
     }
 }
 
-// Add some animations on page load
+// Initialize the form and animations
 document.addEventListener('DOMContentLoaded', function() {
-    // Test animations on page load (remove in production)
-    setTimeout(() => {
-        launchConfetti(); // Launch a few confetti for testing
-        launchBalloons(); // Launch a few balloons for testing
-    }, 1000);
+    // Initialize with 1 guest
+    generateGuestFields(1);
+    
+    // Check if kids count is > 0
+    const kidsCount = parseInt(document.getElementById('kidsCount').value) || 0;
+    if (kidsCount > 0) {
+        generateKidsFields(kidsCount);
+        document.getElementById('kidsDetailsContainer').style.display = 'block';
+    }
     
     // Animate in the form fields
     const formGroups = document.querySelectorAll('.form-group');
@@ -520,58 +408,35 @@ document.addEventListener('DOMContentLoaded', function() {
             group.style.transform = 'translateY(0)';
         }, 200 + (index * 100));
     });
+    
+    // Launch animations for initial display
+    setTimeout(() => {
+        launchConfetti();
+        launchBalloons();
+    }, 1000);
+    
+    // Setup auto-fill for guest name
+    if (document.getElementById('guestName1') && document.getElementById('name')) {
+        document.getElementById('guestName1').value = document.getElementById('name').value;
+    }
 });
 
-// Function to test animations (you can remove this for production)
-function testAnimations() {
-    launchConfetti();
-    launchBalloons();
-}
-
-// Add a test button event listener
+// Test button for animations
 document.getElementById('testAnimations').addEventListener('click', function() {
     launchConfetti();
     launchBalloons();
 });
 
-// Add this to your existing script.js file
-
-// Map toggle functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleMapBtn = document.querySelector('.toggle-map');
-    const mapWrapper = document.querySelector('.map-wrapper');
-    
-    if (toggleMapBtn && mapWrapper) {
-        toggleMapBtn.addEventListener('click', function() {
-            mapWrapper.classList.toggle('collapsed');
-            
-            // Update button text based on map state and current language
-            const isCollapsed = mapWrapper.classList.contains('collapsed');
-            if (currentLanguage === 'en') {
-                this.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
-            } else {
-                this.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
-            }
+// Store responses locally as backup
+function saveResponseLocally(formData) {
+    try {
+        const existingResponses = JSON.parse(localStorage.getItem('birthdayRSVPs') || '[]');
+        existingResponses.push({
+            data: formData,
+            timestamp: new Date().toISOString()
         });
+        localStorage.setItem('birthdayRSVPs', JSON.stringify(existingResponses));
+    } catch (e) {
+        console.error('Could not save to local storage:', e);
     }
-});
-
-// Update the existing switchLanguage function to handle map button text
-const originalSwitchLanguage = switchLanguage;
-switchLanguage = function(lang) {
-    // Call the original function first
-    originalSwitchLanguage(lang);
-    
-    // Additional code for map button text
-    const mapWrapper = document.querySelector('.map-wrapper');
-    const toggleMapBtn = document.querySelector('.toggle-map');
-    
-    if (toggleMapBtn && mapWrapper) {
-        const isCollapsed = mapWrapper.classList.contains('collapsed');
-        if (lang === 'en') {
-            toggleMapBtn.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
-        } else {
-            toggleMapBtn.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
-        }
-    }
-};
+}

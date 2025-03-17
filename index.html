@@ -33,15 +33,12 @@
       content="Please join us to celebrate this special day!"
     />
     <meta property="og:image" content="media/og-image.jpg" />
-    <meta property="og:url" content="https://yourdomain.com/invitation" />
+    <meta property="og:url" content="https://shubhshackyard.github.io/birthdayInvitation" />
   </head>
   <body>
     <div class="container">
       <div class="language-toggle">
         <button id="toggleLanguage" class="lang-btn">हिंदी</button>
-        <button id="testAnimations" class="lang-btn" style="margin-right: 10px">
-          Hurray!
-        </button>
       </div>
 
       <header>
@@ -71,7 +68,7 @@
 
         <p
           data-en="Please join us to celebrate this special day!"
-          data-hi="इस खास दिन को मनाने के लिए हमारे साथ जुड़ें!"
+          data-hi="कृपया इस विशेष दिन को मनाने के लिए हमारे साथ जुड़ें!"
         >
           Please join us to celebrate this special day!
         </p>
@@ -94,7 +91,6 @@
           208001 (Near Jhadi Baba Padav, Sahani Market)
         </p>
 
-        <!-- Add this new map section -->
         <div class="map-container">
           <h3 data-en="Location Map" data-hi="स्थान मानचित्र">Location Map</h3>
           <div class="map-wrapper">
@@ -119,10 +115,10 @@
             >
             <button
               class="map-btn toggle-map"
-              data-en="Show/Hide Map"
-              data-hi="मानचित्र दिखाएं/छिपाएं"
+              data-en="Hide Map"
+              data-hi="मानचित्र छिपाएं"
             >
-              Show/Hide Map
+              Hide Map
             </button>
           </div>
         </div>
@@ -132,10 +128,10 @@
           Unicorns
         </p>
         <p
-          data-en="There will be games, face painting, a bouncy castle, and lots of fun!"
-          data-hi="वहां खेल, फेस पेंटिंग, बाउंसी कैसल और बहुत मज़ा होगा!"
+          data-en="Come join the fun as we celebrate with yummy treats, laughter, and wonderful family moments—let’s make sweet memories together!"
+          data-hi="आइए, हम स्वादिष्ट व्यंजनों, हंसी-मजाक और अद्भुत पारिवारिक क्षणों के साथ जश्न मनाएं - आइए, साथ मिलकर मीठी यादें बनाएं!"
         >
-          There will be games, face painting, a bouncy castle, and lots of fun!
+        Come join the fun as we celebrate with yummy treats, laughter, and wonderful family moments—let’s make sweet memories together!
         </p>
       </div>
 
@@ -148,7 +144,26 @@
           Please let us know if you can attend by March 20th.
         </p>
 
-        <form id="rsvpForm">
+        <form
+          id="rsvpForm"
+          action="https://formsubmit.co/satvik.shubhi1@gmail.com"
+          method="POST"
+        >
+          <!-- FormSubmit configuration fields -->
+          <input
+            type="hidden"
+            name="_subject"
+            value="RSVP for Muktika's Birthday Party!"
+          />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="box" />
+          <input
+            type="hidden"
+            name="_next"
+            value="https://localhost:5500/index.html/?success=true"
+          />
+          <input type="hidden" name="_honey" style="display: none" />
+
           <div class="form-group">
             <label for="name" data-en="Your Name:" data-hi="आपका नाम:"
               >Your Name:</label
@@ -210,54 +225,10 @@
             />
           </div>
 
-          <!-- New container for individual guest details -->
           <div id="guestDetailsContainer" class="guest-details-container">
             <!-- Individual guest details will be generated here -->
-            <div class="guest-detail" data-guest-index="1">
-              <h4 data-en="Guest 1 (you)" data-hi="अतिथि 1 (आप)">
-                Guest 1 (you)
-              </h4>
-              <div class="form-group">
-                <label for="guestName1" data-en="Name:" data-hi="नाम:"
-                  >Name:</label
-                >
-                <input type="text" id="guestName1" name="guestName1" required />
-              </div>
-              <div class="form-group">
-                <label
-                  for="guestMeal1"
-                  data-en="Meal Preference:"
-                  data-hi="भोजन प्राथमिकता:"
-                  >Meal Preference:</label
-                >
-                <select id="guestMeal1" name="guestMeal1">
-                  <option
-                    value=""
-                    data-en="-- Please select --"
-                    data-hi="-- कृपया चुनें --"
-                  >
-                    -- Please select --
-                  </option>
-                  <option
-                    value="standard"
-                    data-en="Non-Veg (Chicken/Mutton) 🔴 "
-                    data-hi="नॉन-वेज (चिकन/मटन) 🔴 "
-                  >
-                    Non-Veg (Chicken/Mutton) 🔴
-                  </option>
-                  <option
-                    value="vegetarian"
-                    data-en="Vegetarian 🟢 "
-                    data-hi="शाकाहारी 🟢 "
-                  >
-                    Vegetarian 🟢
-                  </option>
-                </select>
-              </div>
-            </div>
           </div>
 
-          <!-- Add this kids section -->
           <div class="form-group">
             <label
               for="kidsCount"
@@ -275,13 +246,11 @@
             />
             <small
               data-en="(We have a special surprise for the little ones!)"
-              data-hi="(छोटे बच्चों के लिए हमारे पास एक विशेष आश्चर्य है!)"
+              data-hi="(छोटे बच्चों के लिए हमारे पास एक विशेष उपहार है!)"
+              >(We have a special surprise for the little ones!)</small
             >
-              (We have a special surprise for the little ones!)
-            </small>
           </div>
 
-          <!-- New container for kids details -->
           <div
             id="kidsDetailsContainer"
             class="kids-details-container"
@@ -289,17 +258,6 @@
           >
             <!-- Individual kid details will be generated here -->
           </div>
-
-          <!-- Remove or comment out this original meal preference section
-                    <div class="form-group">
-                        <label for="meal" data-en="Meal Preference:" data-hi="भोजन प्राथमिकता:">Meal Preference:</label>
-                        <select id="meal" name="meal">
-                            <option value="" data-en="-- Please select --" data-hi="-- कृपया चुनें --">-- Please select --</option>
-                            <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-hi="🔴 नॉन-वेज (चिकन/मटन)">🔴 Non-Veg (Chicken/Mutton)</option>
-                            <option value="vegetarian" data-en="🟢 Vegetarian" data-hi="🟢 शाकाहारी">🟢 Vegetarian</option>
-                        </select>
-                    </div>
-                    -->
 
           <div class="form-group">
             <label
@@ -329,16 +287,6 @@
             Submit RSVP
           </button>
 
-          <!-- Add this new message below the submit button -->
-          <div class="form-note" id="formNote">
-            <p
-              data-en="⚠️ Important: Please complete the submission in the popup window that appears after clicking submit."
-              data-hi="⚠️ महत्वपूर्ण: कृपया सबमिट बटन पर क्लिक करने के बाद दिखाई देने वाले पॉपअप विंडो में सबमिशन पूरा करें।"
-            >
-              ⚠️ Important: Please complete the submission in the popup window
-              that appears after clicking submit.
-            </p>
-          </div>
         </form>
 
         <div
@@ -355,7 +303,6 @@
 
     <div id="confetti-container"></div>
     <div id="balloon-container"></div>
-    <div id="form-submission-container" style="display: none"></div>
     <script src="script.js"></script>
   </body>
 </html>
