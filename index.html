@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muktika's 2nd Birthday Party!</title>
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="media/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="media/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="media/favicon-16x16.png"
+    />
+    <link rel="manifest" href="media/site.webmanifest" />
+
+    <!-- Social Media Sharing -->
+    <meta property="og:title" content="Muktika's 2nd Birthday Party!" />
+    <meta
+      property="og:description"
+      content="Please join us to celebrate this special day!"
+    />
+    <meta property="og:image" content="media/og-image.jpg" />
+    <meta property="og:url" content="https://yourdomain.com/invitation" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="language-toggle">
+        <button id="toggleLanguage" class="lang-btn">हिंदी</button>
+        <button id="testAnimations" class="lang-btn" style="margin-right: 10px">
+          Hurray!
+        </button>
+      </div>
+
+      <header>
+        <div class="balloons">🎈🎀🎈</div>
+        <h1
+          data-en="Muktika's 2nd Birthday Party!"
+          data-hi="मुक्तिका का दूसरा जन्मदिन!"
+        >
+          Muktika's 2nd Birthday Party!
+        </h1>
+
+        <div class="video-container">
+          <video
+            width="100%"
+            height="auto"
+            controls
+            muted
+            autoplay
+            loop
+            playsinline
+            poster="media/video-placeholder.jpg"
+          >
+            <source src="media/birthday-video.mp4" type="video/mp4" />
+            Your browser does not support the video.
+          </video>
+        </div>
+
+        <p
+          data-en="Please join us to celebrate this special day!"
+          data-hi="इस खास दिन को मनाने के लिए हमारे साथ जुड़ें!"
+        >
+          Please join us to celebrate this special day!
+        </p>
+        <div class="balloons">🎁🧸🎂</div>
+      </header>
+
+      <div class="event-details">
+        <h2 data-en="Party Details" data-hi="पार्टी विवरण">Party Details</h2>
+        <p>
+          <strong data-en="Date:" data-hi="दिनांक:">Date:</strong> Monday, Mar
+          24, 2025
+        </p>
+        <p>
+          <strong data-en="Time:" data-hi="समय:">Time:</strong> 6:30 PM - 10:00
+          PM
+        </p>
+        <p>
+          <strong data-en="Venue:" data-hi="स्थान:">Venue:</strong> Residence of
+          Mr. Amar Sonker, ET - 1/A, Combined Hospital Campus, Cantt. Kanpur -
+          208001 (Near Jhadi Baba Padav, Sahani Market)
+        </p>
+
+        <!-- Add this new map section -->
+        <div class="map-container">
+          <h3 data-en="Location Map" data-hi="स्थान मानचित्र">Location Map</h3>
+          <div class="map-wrapper">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d801.9511838133279!2d80.36721009649466!3d26.467277672967974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1742172448218!5m2!1sen!2sin"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="map-buttons">
+            <a
+              href="https://maps.app.goo.gl/eW23799u1S9SW1AD6"
+              target="_blank"
+              class="map-btn"
+              data-en="Open in Google Maps"
+              data-hi="Google मैप्स में खोलें"
+              >Open in Google Maps</a
+            >
+            <button
+              class="map-btn toggle-map"
+              data-en="Show/Hide Map"
+              data-hi="मानचित्र दिखाएं/छिपाएं"
+            >
+              Show/Hide Map
+            </button>
+          </div>
+        </div>
+
+        <p>
+          <strong data-en="Theme:" data-hi="थीम:">Theme:</strong> Princess and
+          Unicorns
+        </p>
+        <p
+          data-en="There will be games, face painting, a bouncy castle, and lots of fun!"
+          data-hi="वहां खेल, फेस पेंटिंग, बाउंसी कैसल और बहुत मज़ा होगा!"
+        >
+          There will be games, face painting, a bouncy castle, and lots of fun!
+        </p>
+      </div>
+
+      <div class="form-container">
+        <h2 data-en="RSVP" data-hi="आर.एस.वी.पी.">RSVP</h2>
+        <p
+          data-en="Please let us know if you can attend by March 20th."
+          data-hi="कृपया हमें 20 मार्च तक बताएं कि क्या आप आ सकते हैं।"
+        >
+          Please let us know if you can attend by March 20th.
+        </p>
+
+        <form id="rsvpForm">
+          <div class="form-group">
+            <label for="name" data-en="Your Name:" data-hi="आपका नाम:"
+              >Your Name:</label
+            >
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label data-en="Will you attend?" data-hi="क्या आप आएंगे?"
+              >Will you attend?</label
+            >
+            <div class="radio-options">
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="attend-yes"
+                  name="attendance"
+                  value="yes"
+                  required
+                />
+                <label
+                  for="attend-yes"
+                  data-en="Yes, we'll be there!"
+                  data-hi="हां, हम आएंगे!"
+                  >Yes, we'll be there!</label
+                >
+              </div>
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="attend-no"
+                  name="attendance"
+                  value="no"
+                />
+                <label
+                  for="attend-no"
+                  data-en="Sorry, we can't make it"
+                  data-hi="माफ़ करें, हम नहीं आ सकते"
+                  >Sorry, we can't make it</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              for="guests"
+              data-en="Number of guests (including yourself):"
+              data-hi="अतिथियों की संख्या (स्वयं सहित):"
+              >Number of guests (including yourself):</label
+            >
+            <input
+              type="number"
+              id="guests"
+              name="guests"
+              min="1"
+              max="10"
+              value="1"
+            />
+          </div>
+
+          <!-- New container for individual guest details -->
+          <div id="guestDetailsContainer" class="guest-details-container">
+            <!-- Individual guest details will be generated here -->
+            <div class="guest-detail" data-guest-index="1">
+              <h4 data-en="Guest 1 (you)" data-hi="अतिथि 1 (आप)">
+                Guest 1 (you)
+              </h4>
+              <div class="form-group">
+                <label for="guestName1" data-en="Name:" data-hi="नाम:"
+                  >Name:</label
+                >
+                <input type="text" id="guestName1" name="guestName1" required />
+              </div>
+              <div class="form-group">
+                <label
+                  for="guestMeal1"
+                  data-en="Meal Preference:"
+                  data-hi="भोजन प्राथमिकता:"
+                  >Meal Preference:</label
+                >
+                <select id="guestMeal1" name="guestMeal1">
+                  <option
+                    value=""
+                    data-en="-- Please select --"
+                    data-hi="-- कृपया चुनें --"
+                  >
+                    -- Please select --
+                  </option>
+                  <option
+                    value="standard"
+                    data-en="Non-Veg (Chicken/Mutton) 🔴 "
+                    data-hi="नॉन-वेज (चिकन/मटन) 🔴 "
+                  >
+                    Non-Veg (Chicken/Mutton) 🔴
+                  </option>
+                  <option
+                    value="vegetarian"
+                    data-en="Vegetarian 🟢 "
+                    data-hi="शाकाहारी 🟢 "
+                  >
+                    Vegetarian 🟢
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add this kids section -->
+          <div class="form-group">
+            <label
+              for="kidsCount"
+              data-en="Number of kids under 10:"
+              data-hi="10 साल से कम उम्र के बच्चों की संख्या:"
+              >Number of kids under 10:</label
+            >
+            <input
+              type="number"
+              id="kidsCount"
+              name="kidsCount"
+              min="0"
+              max="10"
+              value="0"
+            />
+            <small
+              data-en="(We have a special surprise for the little ones!)"
+              data-hi="(छोटे बच्चों के लिए हमारे पास एक विशेष आश्चर्य है!)"
+            >
+              (We have a special surprise for the little ones!)
+            </small>
+          </div>
+
+          <!-- New container for kids details -->
+          <div
+            id="kidsDetailsContainer"
+            class="kids-details-container"
+            style="display: none"
+          >
+            <!-- Individual kid details will be generated here -->
+          </div>
+
+          <!-- Remove or comment out this original meal preference section
+                    <div class="form-group">
+                        <label for="meal" data-en="Meal Preference:" data-hi="भोजन प्राथमिकता:">Meal Preference:</label>
+                        <select id="meal" name="meal">
+                            <option value="" data-en="-- Please select --" data-hi="-- कृपया चुनें --">-- Please select --</option>
+                            <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-hi="🔴 नॉन-वेज (चिकन/मटन)">🔴 Non-Veg (Chicken/Mutton)</option>
+                            <option value="vegetarian" data-en="🟢 Vegetarian" data-hi="🟢 शाकाहारी">🟢 Vegetarian</option>
+                        </select>
+                    </div>
+                    -->
+
+          <div class="form-group">
+            <label
+              for="allergies"
+              data-en="Any allergies or dietary restrictions?"
+              data-hi="कोई एलर्जी या आहार संबंधी प्रतिबंध?"
+              >Any allergies or dietary restrictions?</label
+            >
+            <textarea id="allergies" name="allergies" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label
+              for="message"
+              data-en="Message for Muktika (optional):"
+              data-hi="मुक्तिका के लिए संदेश (वैकल्पिक):"
+              >Message for Muktika (optional):</label
+            >
+            <textarea id="message" name="message" rows="3"></textarea>
+          </div>
+
+          <button
+            type="submit"
+            data-en="Submit RSVP"
+            data-hi="आर.एस.वी.पी. जमा करें"
+          >
+            Submit RSVP
+          </button>
+
+          <!-- Add this new message below the submit button -->
+          <div class="form-note" id="formNote">
+            <p
+              data-en="⚠️ Important: Please complete the submission in the popup window that appears after clicking submit."
+              data-hi="⚠️ महत्वपूर्ण: कृपया सबमिट बटन पर क्लिक करने के बाद दिखाई देने वाले पॉपअप विंडो में सबमिशन पूरा करें।"
+            >
+              ⚠️ Important: Please complete the submission in the popup window
+              that appears after clicking submit.
+            </p>
+          </div>
+        </form>
+
+        <div
+          id="successMessage"
+          class="success-message"
+          style="display: none"
+          data-en="Thank you for your response! We look forward to celebrating with you."
+          data-hi="आपके जवाब के लिए धन्यवाद! हम आपके साथ जश्न मनाने के लिए उत्सुक हैं।"
+        >
+          Thank you for your response! We look forward to celebrating with you.
+        </div>
+      </div>
+    </div>
+
+    <div id="confetti-container"></div>
+    <div id="balloon-container"></div>
+    <div id="form-submission-container" style="display: none"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
