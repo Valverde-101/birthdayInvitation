@@ -184,15 +184,45 @@ header p {
 
 /* Video Container */
 .video-container {
-    max-width: 500px;
-    margin: 15px auto;
-    border-radius: 15px;
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 
-        0 10px 20px rgba(0,0,0,0.15),
-        0 0 0 5px var(--primary-color),
-        0 0 0 10px white,
-        0 0 0 15px var(--accent1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.video-container img,
+.video-container video {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.video-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* For very large screens */
+@media screen and (min-width: 1400px) {
+    .video-container {
+        max-width: 800px;
+    }
+}
+
+/* For mobile devices */
+@media screen and (max-width: 768px) {
+    .video-container {
+        max-width: 100%;
+        border-radius: 8px;
+    }
 }
 
 /* Form Container */

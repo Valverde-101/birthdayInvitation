@@ -51,15 +51,32 @@
         </h1>
 
         <div class="video-container">
+          <!-- Placeholder image that will be replaced -->
+          <picture>
+            <!-- WebP version first -->
+            <source srcset="media/birthday-animation.webp" type="image/webp">
+            <!-- Fallback for browsers that don't support WebP -->
+            <img 
+              id="videoFallback" 
+              src="media/birthday-animation.gif" 
+              alt="Muktika's Birthday Animation"
+              width="100%" 
+              height="auto" 
+            />
+          </picture>
+          
+          <!-- Video element that will be shown if video can load -->
           <video
+            id="birthdayVideo"
             width="100%"
             height="auto"
             controls
-            muted
             autoplay
             loop
             playsinline
             poster="media/video-placeholder.jpg"
+            preload="metadata"
+            style="display: none;"
           >
             <source src="media/birthday-video.mp4" type="video/mp4" />
             Your browser does not support the video.
@@ -86,7 +103,7 @@
           PM
         </p>
         <p>
-          <strong data-en="Venue:" data-hi="स्थान:">Venue:</strong> Residence of
+          <strong data-en="Venue:" data-hi="स्थान:">Venue:</strong> R/o
           Mr. Amar Sonker, ET - 1/A, Combined Hospital Campus, Cantt. Kanpur -
           208001 (Near Jhadi Baba Padav, Sahani Market)
         </p>
@@ -124,8 +141,7 @@
         </div>
 
         <p>
-          <strong data-en="Theme:" data-hi="थीम:">Theme:</strong> Princess and
-          Unicorns
+          <strong data-en="Theme:" data-hi="थीम:">Theme:</strong> Unicorns
         </p>
         <p
           data-en="Come join the fun as we celebrate with yummy treats, laughter, and wonderful family moments—let’s make sweet memories together!"
@@ -151,10 +167,11 @@
         >
           <!-- FormSubmit configuration fields -->
           <input
-            type="hidden"
-            name="_subject"
-            value="RSVP for Muktika's Birthday Party!"
+          type="hidden"
+          name="_subject"
+          value="RSVP for Muktika's Birthday Party!"
           />
+          <input type="hidden" name="_cc" value="anshumohini@live.com" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="box" />
           <input
@@ -229,35 +246,7 @@
             <!-- Individual guest details will be generated here -->
           </div>
 
-          <div class="form-group">
-            <label
-              for="kidsCount"
-              data-en="Number of kids under 10:"
-              data-hi="10 साल से कम उम्र के बच्चों की संख्या:"
-              >Number of kids under 10:</label
-            >
-            <input
-              type="number"
-              id="kidsCount"
-              name="kidsCount"
-              min="0"
-              max="10"
-              value="0"
-            />
-            <small
-              data-en="(We have a special surprise for the little ones!)"
-              data-hi="(छोटे बच्चों के लिए हमारे पास एक विशेष उपहार है!)"
-              >(We have a special surprise for the little ones!)</small
-            >
-          </div>
-
-          <div
-            id="kidsDetailsContainer"
-            class="kids-details-container"
-            style="display: none"
-          >
-            <!-- Individual kid details will be generated here -->
-          </div>
+        <!-- Kids section removed as requested -->
 
           <div class="form-group">
             <label

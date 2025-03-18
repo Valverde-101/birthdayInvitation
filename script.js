@@ -45,7 +45,7 @@ function switchLanguage(lang) {
     }
 }
 
-// Form submission handling
+// Form submission handling - REMOVE kids-related code
 document.getElementById('rsvpForm').addEventListener('submit', function(event) {
     if (!window.location.search.includes('success=true')) {
         event.preventDefault();
@@ -76,38 +76,16 @@ document.getElementById('rsvpForm').addEventListener('submit', function(event) {
             }
         }
         
-        // Handle kids in a similar way
-        const kidCount = parseInt(document.getElementById('kidsCount').value) || 0;
-        for (let i = 1; i <= kidCount; i++) {
-            if (document.getElementById(`kidName${i}`)) {
-                const input1 = document.createElement('input');
-                input1.type = 'hidden';
-                input1.name = `Kid_${i}_Name`;
-                input1.value = document.getElementById(`kidName${i}`).value;
-                this.appendChild(input1);
-                
-                const input2 = document.createElement('input');
-                input2.type = 'hidden';
-                input2.name = `Kid_${i}_Age`;
-                input2.value = document.getElementById(`kidAge${i}`).value;
-                this.appendChild(input2);
-                
-                const input3 = document.createElement('input');
-                input3.type = 'hidden';
-                input3.name = `Kid_${i}_Likes`;
-                input3.value = document.getElementById(`kidLikes${i}`).value || "";
-                this.appendChild(input3);
-            }
-        }
+        // REMOVED: Kids-related code handling
         
         // Save response locally as backup
         const formData = {
             name: document.getElementById('name').value,
             attendance: document.querySelector('input[name="attendance"]:checked').value,
             guests: document.getElementById('guests').value,
-            kidsCount: document.getElementById('kidsCount').value,
             allergies: document.getElementById('allergies')?.value || "",
             message: document.getElementById('message')?.value || ""
+            // REMOVED: kidsCount and kidsDetails
         };
         saveResponseLocally(formData);
         
@@ -173,9 +151,8 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
         const formSections = [
             document.getElementById('guests').parentElement,
             document.getElementById('guestDetailsContainer'),
-            document.getElementById('kidsCount').parentElement,
-            document.getElementById('kidsDetailsContainer'),
             document.getElementById('allergies').parentElement
+            // REMOVED: Kids-related form sections
         ];
         
         if (this.value === 'yes') {
@@ -201,8 +178,7 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
                 document.getElementById('guestMeal1').value = "vegetarian"; // Default value
             }
             
-            // Set kids count to 0
-            document.getElementById('kidsCount').value = "0";
+            // REMOVED: Kids count setting
         }
     });
 });
@@ -248,63 +224,6 @@ function generateGuestFields(count) {
         `;
         
         container.appendChild(guestDiv);
-    }
-}
-
-// Handle kids details generation
-document.getElementById('kidsCount').addEventListener('change', function() {
-    const count = parseInt(this.value) || 0;
-    generateKidsFields(count);
-    
-    // Show or hide the kids container
-    const kidsContainer = document.getElementById('kidsDetailsContainer');
-    kidsContainer.style.display = count > 0 ? 'block' : 'none';
-    
-    // Apply language to new elements
-    if (currentLanguage !== 'en') {
-        switchLanguage(currentLanguage);
-    }
-});
-
-function generateKidsFields(count) {
-    const container = document.getElementById('kidsDetailsContainer');
-    container.innerHTML = ''; // Clear existing fields
-    
-    if (count <= 0) return;
-    
-    // Add title for kids section
-    const titleDiv = document.createElement('div');
-    titleDiv.innerHTML = `
-        <h3 data-en="Kids Details" data-hi="बच्चों का विवरण">Kids Details</h3>
-        <p data-en="Please provide details for the special surprise!" data-hi="कृपया विशेष आश्चर्य के लिए विवरण प्रदान करें!">
-            Please provide details for the special surprise!
-        </p>
-    `;
-    container.appendChild(titleDiv);
-    
-    // Generate fields for each kid
-    for (let i = 1; i <= count; i++) {
-        const kidDiv = document.createElement('div');
-        kidDiv.className = 'kid-detail';
-        kidDiv.dataset.kidIndex = i;
-        
-        kidDiv.innerHTML = `
-            <h4 data-en="Kid ${i}" data-hi="बच्चा ${i}">Kid ${i}</h4>
-            <div class="form-group">
-                <label for="kidName${i}" data-en="Name:" data-hi="नाम:">Name:</label>
-                <input type="text" id="kidName${i}" name="kidName${i}" required>
-            </div>
-            <div class="form-group">
-                <label for="kidAge${i}" data-en="Age:" data-hi="उम्र:">Age:</label>
-                <input type="number" id="kidAge${i}" name="kidAge${i}" min="1" max="10" required>
-            </div>
-            <div class="form-group">
-                <label for="kidLikes${i}" data-en="Favorite character/toy:" data-hi="पसंदीदा किरदार/खिलौना:">Favorite character/toy:</label>
-                <input type="text" id="kidLikes${i}" name="kidLikes${i}" placeholder="Princess, Spiderman, Cars...">
-            </div>
-        `;
-        
-        container.appendChild(kidDiv);
     }
 }
 
@@ -390,13 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize with 1 guest
     generateGuestFields(1);
     
-    // Check if kids count is > 0
-    const kidsCount = parseInt(document.getElementById('kidsCount').value) || 0;
-    if (kidsCount > 0) {
-        generateKidsFields(kidsCount);
-        document.getElementById('kidsDetailsContainer').style.display = 'block';
-    }
-    
     // Animate in the form fields
     const formGroups = document.querySelectorAll('.form-group');
     formGroups.forEach((group, index) => {
@@ -421,12 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Test button for animations
-document.getElementById('testAnimations').addEventListener('click', function() {
-    launchConfetti();
-    launchBalloons();
-});
-
 // Store responses locally as backup
 function saveResponseLocally(formData) {
     try {
@@ -439,4 +345,42 @@ function saveResponseLocally(formData) {
     } catch (e) {
         console.error('Could not save to local storage:', e);
     }
-}
+};
+
+// Add this to your DOMContentLoaded event or at the end of your script
+document.addEventListener('DOMContentLoaded', function() {
+    // Video fallback handling
+    const video = document.getElementById('birthdayVideo');
+    const fallback = document.getElementById('videoFallback');
+    
+    // Function to check connection speed
+    function checkConnectionSpeed() {
+        // For very basic speed detection
+        const connection = navigator.connection || 
+                           navigator.mozConnection || 
+                           navigator.webkitConnection;
+        
+        if (connection && (connection.downlink < 1.5 || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
+            console.log("Slow connection detected, using GIF");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Check if video can be played
+    const videoPromise = video.play();
+    
+    if (videoPromise !== undefined && checkConnectionSpeed()) {
+        videoPromise
+            .then(() => {
+                // Video can play, so hide fallback and show video
+                fallback.style.display = 'none';
+                video.style.display = 'block';
+            })
+            .catch(error => {
+                // Video couldn't play, keep showing the GIF
+                console.log("Video playback prevented:", error);
+            });
+    }
+});
