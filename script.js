@@ -347,6 +347,73 @@ function saveResponseLocally(formData) {
     }
 };
 
+// Add this to your DOMContentLoaded event or at the beginning of your script
+document.addEventListener('DOMContentLoaded', function() {
+    // Video loading prioritization
+    const video = document.getElementById('birthdayVideo');
+    const fallbackContainer = document.getElementById('fallbackContainer');
+    let videoLoaded = false;
+    
+    // Track if video can play through
+    video.addEventListener('canplaythrough', function() {
+        videoLoaded = true;
+        // Hide fallback once video is ready
+        if (fallbackContainer.style.display !== 'none') {
+            fallbackContainer.style.display = 'none';
+        }
+    });
+    
+    // Handle video errors
+    video.addEventListener('error', function() {
+        console.log("Video error encountered");
+        showFallback();
+    });
+    
+    // Add timeout for slow connections
+    const videoTimeout = setTimeout(function() {
+        if (!videoLoaded) {
+            console.log("Video loading timed out");
+            showFallback();
+        }
+    }, 5000); // 5 second timeout
+    
+    // Add suspending event listener
+    video.addEventListener('suspend', function() {
+        // Sometimes suspend is normal, only show fallback if no data loaded
+        if (video.readyState < 2 && !videoLoaded) {
+            showFallback();
+        }
+    });
+    
+    function showFallback() {
+        video.style.display = 'none';
+        fallbackContainer.style.display = 'block';
+    }
+    
+    // Force video load with play attempt
+    var playPromise = video.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(function(error) {
+            console.log("Autoplay prevented:", error);
+            // Show play button or fallback on autoplay prevention
+            if (error.name === 'NotAllowedError') {
+                // Show a custom play button on top of video
+                const playButton = document.createElement('button');
+                playButton.innerHTML = '▶️';
+                playButton.className = 'video-play-button';
+                playButton.addEventListener('click', function() {
+                    video.play();
+                    this.remove();
+                });
+                video.parentNode.appendChild(playButton);
+            }
+        });
+    }
+    
+    // Existing code below...
+});
+
 // Add this to your DOMContentLoaded event or at the end of your script
 document.addEventListener('DOMContentLoaded', function() {
     // Video fallback handling

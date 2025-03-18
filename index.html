@@ -51,11 +51,26 @@
         </h1>
 
         <div class="video-container">
-          <!-- Placeholder image that will be replaced -->
-          <picture>
-            <!-- WebP version first -->
-            <source srcset="media/birthday-animation.webp" type="image/webp">
-            <!-- Fallback for browsers that don't support WebP -->
+          <!-- Video element - now prioritized -->
+          <video
+            id="birthdayVideo"
+            width="100%"
+            height="auto"
+            controls
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="media/video-placeholder.jpg"
+            preload="auto"
+          >
+            <source src="media/birthday-video.mp4" type="video/mp4" />
+            <!-- Fallback for browsers that don't support video -->
+            Your browser does not support the video.
+          </video>
+          
+          <!-- Simplified fallback - GIF only -->
+          <div id="fallbackContainer" style="display: none;">
             <img 
               id="videoFallback" 
               src="media/birthday-animation.gif" 
@@ -63,24 +78,7 @@
               width="100%" 
               height="auto" 
             />
-          </picture>
-          
-          <!-- Video element that will be shown if video can load -->
-          <video
-            id="birthdayVideo"
-            width="100%"
-            height="auto"
-            controls
-            autoplay
-            loop
-            playsinline
-            poster="media/video-placeholder.jpg"
-            preload="metadata"
-            style="display: none;"
-          >
-            <source src="media/birthday-video.mp4" type="video/mp4" />
-            Your browser does not support the video.
-          </video>
+          </div>
         </div>
 
         <p
