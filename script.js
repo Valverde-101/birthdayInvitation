@@ -45,59 +45,37 @@ function switchLanguage(lang) {
     }
 }
 
-// Form submission handling - REMOVE kids-related code
+// Simplify your form submission code
+
 document.getElementById('rsvpForm').addEventListener('submit', function(event) {
-    if (!window.location.search.includes('success=true')) {
-        event.preventDefault();
-        
-        // Show loading state
-        const submitButton = document.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
-        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
-        submitButton.disabled = true;
-        
-        // Collect all guest data and prepare it for FormSubmit
-        const guestCount = parseInt(document.getElementById('guests').value) || 1;
-        
-        // Create serialized fields for guests
-        for (let i = 1; i <= guestCount; i++) {
-            if (document.getElementById(`guestName${i}`)) {
-                const input1 = document.createElement('input');
-                input1.type = 'hidden';
-                input1.name = `Guest_${i}_Name`;
-                input1.value = document.getElementById(`guestName${i}`).value || "Not Attending";
-                this.appendChild(input1);
-                
-                const input2 = document.createElement('input');
-                input2.type = 'hidden';
-                input2.name = `Guest_${i}_Meal`;
-                input2.value = document.getElementById(`guestMeal${i}`).value || "vegetarian";
-                this.appendChild(input2);
-            }
-        }
-        
-        // REMOVED: Kids-related code handling
-        
-        // Save response locally as backup
-        const formData = {
-            name: document.getElementById('name').value,
-            attendance: document.querySelector('input[name="attendance"]:checked').value,
-            guests: document.getElementById('guests').value,
-            allergies: document.getElementById('allergies')?.value || "",
-            message: document.getElementById('message')?.value || ""
-            // REMOVED: kidsCount and kidsDetails
-        };
-        saveResponseLocally(formData);
-        
-        // Submit the form
-        this.submit();
-    } else {
-        // We've returned from successful submission
+    // Only handle if we're returning from success
+    if (window.location.search.includes('success=true')) {
         event.preventDefault();
         document.getElementById('successMessage').style.display = 'block';
         document.getElementById('rsvpForm').style.display = 'none';
         launchConfetti();
         launchBalloons();
+    } else {
+        // For initial form submission, show loading state
+        const submitButton = document.querySelector('button[type="submit"]');
+        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
+        submitButton.disabled = true;
+        
+        // We'll still save a local backup
+        try {
+            const formData = {
+                name: document.getElementById('name').value,
+                attendance: document.querySelector('input[name="attendance"]:checked').value,
+                guests: document.getElementById('guests').value,
+                allergies: document.getElementById('allergies')?.value || "",
+                message: document.getElementById('message')?.value || ""
+            };
+            saveResponseLocally(formData);
+        } catch (e) {
+            console.error('Error saving backup:', e);
+        }
+        
+        // Let the form submit naturally - no preventDefault()
     }
 });
 
