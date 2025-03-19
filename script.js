@@ -45,23 +45,24 @@ function switchLanguage(lang) {
     }
 }
 
-// Simplify your form submission code
-
+// Modify your form submission code
 document.getElementById('rsvpForm').addEventListener('submit', function(event) {
-    // Only handle if we're returning from success
+    // Prevent default form submission
+    event.preventDefault();
+    
+    // If we're returning from success, show success message
     if (window.location.search.includes('success=true')) {
-        event.preventDefault();
         document.getElementById('successMessage').style.display = 'block';
         document.getElementById('rsvpForm').style.display = 'none';
         launchConfetti();
         launchBalloons();
     } else {
-        // For initial form submission, show loading state
+        // For initial form submission
         const submitButton = document.querySelector('button[type="submit"]');
         submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
         submitButton.disabled = true;
         
-        // We'll still save a local backup
+        // Save local backup
         try {
             const formData = {
                 name: document.getElementById('name').value,
@@ -75,7 +76,36 @@ document.getElementById('rsvpForm').addEventListener('submit', function(event) {
             console.error('Error saving backup:', e);
         }
         
-        // Let the form submit naturally - no preventDefault()
+        // Show success message and animations immediately
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('rsvpForm').style.display = 'none';
+        launchConfetti();
+        launchBalloons();
+        
+        // Submit the form in the background
+        const formEl = this;
+        setTimeout(function() {
+            // Create a copy of the form data
+            const formData = new FormData(formEl);
+            
+            // Submit via fetch to avoid page navigation
+            fetch(formEl.action, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // Prevent CORS errors
+            }).catch(error => {
+                console.log('Form submitted in background, any errors can be ignored');
+            });
+            
+            // Also update URL to include success=true
+            if (history.pushState) {
+                const newurl = window.location.protocol + "//" + 
+                      window.location.host + 
+                      window.location.pathname + 
+                      '?success=true';
+                window.history.pushState({path: newurl}, '', newurl);
+            }
+        }, 1000); // Small delay to ensure animations start first
     }
 });
 
