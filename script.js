@@ -43,7 +43,45 @@ function switchLanguage(lang) {
         const isCollapsed = mapWrapper.classList.contains('collapsed');
         updateMapToggleText(toggleMapBtn, isCollapsed);
     }
+
+    updateCountdown();
 }
+
+// Countdown timer
+const eventDate = new Date('August 24, 2025 18:30:00');
+let countdownInterval;
+
+function updateCountdown() {
+    const countdownEl = document.getElementById('countdown');
+    if (!countdownEl) return;
+    const now = new Date();
+    const diff = eventDate - now;
+
+    if (diff <= 0) {
+        countdownEl.textContent = currentLanguage === 'en' ?
+            'The party has started!' : '¡La fiesta ha comenzado!';
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    if (currentLanguage === 'en') {
+        countdownEl.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+    } else {
+        countdownEl.textContent = `${days} días ${hours} horas ${minutes} minutos ${seconds} segundos`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+});
 
 // Modify your form submission code
 document.getElementById('rsvpForm').addEventListener('submit', function(event) {
@@ -179,7 +217,7 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
             
             // Also fill in any guest details fields
             if (document.getElementById('guestName1')) {
-                document.getElementById('guestName1').value = document.getElementById('name').value || "Not Attending";
+                document.getElementById('guestName1').value = document.getElementById('name').value || "";
             }
             
             if (document.getElementById('guestMeal1')) {
