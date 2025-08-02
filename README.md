@@ -1,6 +1,6 @@
 # Birthday Invitation Website
 
-A beautiful, interactive digital invitation for Muktika's 2nd birthday party. This responsive website features animations, bilingual support (English/Hindi), and a user-friendly RSVP system.
+A beautiful, interactive digital birthday invitation. This responsive website features animations, bilingual support (English/Spanish), and a user-friendly RSVP system.
 
 ![Preview of the invitation website](media/og-image.jpg)
 
