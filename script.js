@@ -1,13 +1,13 @@
 // Language toggle functionality
-let currentLanguage = 'en';
+let currentLanguage = 'es';
 
 document.getElementById('toggleLanguage').addEventListener('click', function() {
-    if (currentLanguage === 'en') {
-        switchLanguage('hi');
-        this.textContent = 'English';
-    } else {
+    if (currentLanguage === 'es') {
         switchLanguage('en');
-        this.textContent = 'हिंदी';
+        this.textContent = 'Español';
+    } else {
+        switchLanguage('es');
+        this.textContent = 'English';
     }
 });
 
@@ -59,7 +59,7 @@ document.getElementById('rsvpForm').addEventListener('submit', function(event) {
     } else {
         // For initial form submission
         const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
+        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'Enviando...';
         submitButton.disabled = true;
         
         // Save local backup
@@ -148,7 +148,7 @@ function updateMapToggleText(button, isCollapsed) {
     if (currentLanguage === 'en') {
         button.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
     } else {
-        button.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
+        button.textContent = isCollapsed ? 'Mostrar mapa' : 'Ocultar mapa';
     }
 }
 
@@ -194,9 +194,9 @@ document.querySelectorAll('input[name="attendance"]').forEach(function(radio) {
 // Handle dynamic guest details generation
 document.getElementById('guests').addEventListener('change', function() {
     generateGuestFields(parseInt(this.value) || 1);
-    
+
     // Apply language to new elements
-    if (currentLanguage !== 'en') {
+    if (currentLanguage !== 'es') {
         switchLanguage(currentLanguage);
     }
 });
@@ -211,22 +211,22 @@ function generateGuestFields(count) {
         guestDiv.className = 'guest-detail';
         guestDiv.dataset.guestIndex = i;
         
-        const title = i === 1 ? 
-            `<h4 data-en="Guest ${i} (you)" data-hi="अतिथि ${i} (आप)">Guest ${i} (you)</h4>` : 
-            `<h4 data-en="Guest ${i}" data-hi="अतिथि ${i}">Guest ${i}</h4>`;
-        
+        const title = i === 1 ?
+            `<h4 data-en="Guest ${i} (you)" data-es="Invitado ${i} (tú)">Invitado ${i} (tú)</h4>` :
+            `<h4 data-en="Guest ${i}" data-es="Invitado ${i}">Invitado ${i}</h4>`;
+
         guestDiv.innerHTML = `
             ${title}
             <div class="form-group">
-                <label for="guestName${i}" data-en="Name:" data-hi="नाम:">Name:</label>
+                <label for="guestName${i}" data-en="Name:" data-es="Nombre:">Nombre:</label>
                 <input type="text" id="guestName${i}" name="guestName${i}" required>
             </div>
             <div class="form-group">
-                <label for="guestMeal${i}" data-en="Meal Preference:" data-hi="भोजन प्राथमिकता:">Meal Preference:</label>
+                <label for="guestMeal${i}" data-en="Meal Preference:" data-es="Preferencia de comida:">Preferencia de comida:</label>
                 <select id="guestMeal${i}" name="guestMeal${i}">
-                    <option value="" data-en="-- Please select --" data-hi="-- कृपया चुनें --">-- Please select --</option>
-                    <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-hi="🔴 नॉन-वेज (चिकन/मटन)">🔴 Non-Veg (Chicken/Mutton)</option>
-                    <option value="vegetarian" data-en="🟢 Vegetarian" data-hi="🟢 शाकाहारी">🟢 Vegetarian</option>
+                    <option value="" data-en="-- Please select --" data-es="-- Por favor selecciona --">-- Por favor selecciona --</option>
+                    <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-es="🔴 No vegetariano (Pollo/Cordero)">🔴 No vegetariano (Pollo/Cordero)</option>
+                    <option value="vegetarian" data-en="🟢 Vegetarian" data-es="🟢 Vegetariano">🟢 Vegetariano</option>
                 </select>
             </div>
         `;
