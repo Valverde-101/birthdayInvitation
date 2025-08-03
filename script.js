@@ -4,13 +4,8 @@ const celebrantAge = 60;
 const eventStart = new Date('2025-08-24T18:30:00');
 const eventEnd = new Date('2025-08-24T22:00:00');
 
-function getOrdinalEn(n) {
-    const s = ["th", "st", "nd", "rd"], v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
-
-const titleEN = `${celebrantName}'s ${getOrdinalEn(celebrantAge)} Birthday Party!`;
-const titleES = `¡Fiesta del ${celebrantAge}º cumpleaños de ${celebrantName}!`;
+const titleEN = `${celebrantName}'s Birthday Party for ${celebrantAge} Years!`;
+const titleES = `¡Fiesta de cumpleaños de ${celebrantName} por sus ${celebrantAge} años!`;
 
 function formatDate(date, lang) {
     return date.toLocaleDateString(lang, {
