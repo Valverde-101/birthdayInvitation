@@ -187,15 +187,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Photo carousel setup
-    const carouselImages = document.querySelectorAll('.carousel img');
+    const track = document.querySelector('.carousel-track');
+    let carouselImages = track ? track.querySelectorAll('img') : [];
     if (carouselImages.length) {
-        let currentPhoto = 0;
-        carouselImages[currentPhoto].classList.add('active');
+        const visible = 3;
+        const originalCount = carouselImages.length;
+
+        // Clone first images to create seamless loop
+        for (let i = 0; i < visible; i++) {
+            track.appendChild(carouselImages[i].cloneNode(true));
+        }
+
+        // Update image list after cloning
+        carouselImages = track.querySelectorAll('img');
+        const total = carouselImages.length;
+
+        // Set dynamic widths so three images are visible
+        track.style.width = `${(total / visible) * 100}%`;
+        carouselImages.forEach(img => {
+            img.style.width = `${100 / total}%`;
+        });
+
+        let index = 0;
+        const slidePercent = 100 / total;
         setInterval(() => {
-            carouselImages[currentPhoto].classList.remove('active');
-            currentPhoto = (currentPhoto + 1) % carouselImages.length;
-            carouselImages[currentPhoto].classList.add('active');
-        }, 2000);
+            index++;
+            track.style.transition = 'transform 0.5s ease';
+            track.style.transform = `translateX(-${index * slidePercent}%)`;
+
+            if (index === originalCount) {
+                setTimeout(() => {
+                    track.style.transition = 'none';
+                    track.style.transform = 'translateX(0)';
+                    index = 0;
+                }, 500); // match transition duration
+            }
+        }, 4000);
 
         const modal = document.getElementById('photoModal');
         const modalImg = document.getElementById('modalImage');
