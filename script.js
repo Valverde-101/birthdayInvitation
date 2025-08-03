@@ -1,18 +1,18 @@
 // Language toggle functionality
+const languages = ['en', 'hi', 'es'];
+const languageLabels = { en: 'English', hi: 'हिंदी', es: 'Español' };
 let currentLanguage = 'en';
 
 document.getElementById('toggleLanguage').addEventListener('click', function() {
-    if (currentLanguage === 'en') {
-        switchLanguage('hi');
-        this.textContent = 'English';
-    } else {
-        switchLanguage('en');
-        this.textContent = 'हिंदी';
-    }
+    const nextLang = languages[(languages.indexOf(currentLanguage) + 1) % languages.length];
+    switchLanguage(nextLang);
+    const nextLabel = languageLabels[languages[(languages.indexOf(nextLang) + 1) % languages.length]];
+    this.textContent = nextLabel;
 });
 
 function switchLanguage(lang) {
     currentLanguage = lang;
+    document.documentElement.lang = lang;
     const elements = document.querySelectorAll('[data-en]');
     
     elements.forEach(element => {
@@ -59,7 +59,11 @@ document.getElementById('rsvpForm').addEventListener('submit', function(event) {
     } else {
         // For initial form submission
         const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'भेज रहा है...';
+        submitButton.textContent = currentLanguage === 'en'
+            ? 'Submitting...'
+            : currentLanguage === 'hi'
+            ? 'भेज रहा है...'
+            : 'Enviando...';
         submitButton.disabled = true;
         
         // Save local backup
@@ -147,8 +151,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateMapToggleText(button, isCollapsed) {
     if (currentLanguage === 'en') {
         button.textContent = isCollapsed ? 'Show Map' : 'Hide Map';
-    } else {
+    } else if (currentLanguage === 'hi') {
         button.textContent = isCollapsed ? 'मानचित्र दिखाएं' : 'मानचित्र छिपाएं';
+    } else {
+        button.textContent = isCollapsed ? 'Mostrar mapa' : 'Ocultar mapa';
     }
 }
 
@@ -211,22 +217,22 @@ function generateGuestFields(count) {
         guestDiv.className = 'guest-detail';
         guestDiv.dataset.guestIndex = i;
         
-        const title = i === 1 ? 
-            `<h4 data-en="Guest ${i} (you)" data-hi="अतिथि ${i} (आप)">Guest ${i} (you)</h4>` : 
-            `<h4 data-en="Guest ${i}" data-hi="अतिथि ${i}">Guest ${i}</h4>`;
+        const title = i === 1 ?
+            `<h4 data-en="Guest ${i} (you)" data-hi="अतिथि ${i} (आप)" data-es="Invitado ${i} (tú)">Guest ${i} (you)</h4>` :
+            `<h4 data-en="Guest ${i}" data-hi="अतिथि ${i}" data-es="Invitado ${i}">Guest ${i}</h4>`;
         
         guestDiv.innerHTML = `
             ${title}
             <div class="form-group">
-                <label for="guestName${i}" data-en="Name:" data-hi="नाम:">Name:</label>
+                <label for="guestName${i}" data-en="Name:" data-hi="नाम:" data-es="Nombre:">Name:</label>
                 <input type="text" id="guestName${i}" name="guestName${i}" required>
             </div>
             <div class="form-group">
-                <label for="guestMeal${i}" data-en="Meal Preference:" data-hi="भोजन प्राथमिकता:">Meal Preference:</label>
+                <label for="guestMeal${i}" data-en="Meal Preference:" data-hi="भोजन प्राथमिकता:" data-es="Preferencia de comida:">Meal Preference:</label>
                 <select id="guestMeal${i}" name="guestMeal${i}">
-                    <option value="" data-en="-- Please select --" data-hi="-- कृपया चुनें --">-- Please select --</option>
-                    <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-hi="🔴 नॉन-वेज (चिकन/मटन)">🔴 Non-Veg (Chicken/Mutton)</option>
-                    <option value="vegetarian" data-en="🟢 Vegetarian" data-hi="🟢 शाकाहारी">🟢 Vegetarian</option>
+                    <option value="" data-en="-- Please select --" data-hi="-- कृपया चुनें --" data-es="-- Por favor selecciona --">-- Please select --</option>
+                    <option value="standard" data-en="🔴 Non-Veg (Chicken/Mutton)" data-hi="🔴 नॉन-वेज (चिकन/मटन)" data-es="🔴 No vegetariano (pollo/cordero)">🔴 Non-Veg (Chicken/Mutton)</option>
+                    <option value="vegetarian" data-en="🟢 Vegetarian" data-hi="🟢 शाकाहारी" data-es="🟢 Vegetariano">🟢 Vegetarian</option>
                 </select>
             </div>
         `;
