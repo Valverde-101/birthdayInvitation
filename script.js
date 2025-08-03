@@ -185,6 +185,43 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    // Photo carousel setup
+    const carouselImages = document.querySelectorAll('.carousel img');
+    if (carouselImages.length) {
+        let currentPhoto = 0;
+        carouselImages[currentPhoto].classList.add('active');
+        setInterval(() => {
+            carouselImages[currentPhoto].classList.remove('active');
+            currentPhoto = (currentPhoto + 1) % carouselImages.length;
+            carouselImages[currentPhoto].classList.add('active');
+        }, 2000);
+
+        const modal = document.getElementById('photoModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close-modal');
+
+        carouselImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modal.style.display = 'flex';
+            });
+        });
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
+
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    }
 });
 
 // Modify your form submission code
