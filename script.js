@@ -166,24 +166,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (music) {
         const btn = document.createElement('button');
         btn.id = 'musicToggle';
-        btn.textContent = '🔊';
+
+        const updateIcon = () => {
+            btn.textContent = music.paused ? '🔇' : '🔊';
+        };
+
         btn.addEventListener('click', () => {
             if (music.paused) {
-                music.play();
-                btn.textContent = '🔊';
+                music.play().catch(() => {});
             } else {
                 music.pause();
-                btn.textContent = '🔇';
             }
+            updateIcon();
         });
+
         document.body.appendChild(btn);
 
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                btn.textContent = '🔇';
-            });
-        }
+        const attemptPlay = () => {
+            music.play().catch(() => {});
+            updateIcon();
+        };
+
+        attemptPlay();
+        window.addEventListener('load', attemptPlay);
     }
 });
 
