@@ -187,14 +187,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Photo carousel setup
-    const carouselImages = document.querySelectorAll('.carousel img');
+    const track = document.querySelector('.carousel-track');
+    const carouselImages = track ? track.querySelectorAll('img') : [];
     if (carouselImages.length) {
-        let currentPhoto = 0;
-        carouselImages[currentPhoto].classList.add('active');
+        const visible = 3;
+        const maxIndex = carouselImages.length - visible;
+
+        // Set dynamic widths so three images are visible
+        track.style.width = `${(carouselImages.length / visible) * 100}%`;
+        carouselImages.forEach(img => {
+            img.style.width = `${100 / carouselImages.length}%`;
+        });
+
+        let index = 0;
         setInterval(() => {
-            carouselImages[currentPhoto].classList.remove('active');
-            currentPhoto = (currentPhoto + 1) % carouselImages.length;
-            carouselImages[currentPhoto].classList.add('active');
+            index = index >= maxIndex ? 0 : index + 1;
+            track.style.transform = `translateX(-${index * (100 / carouselImages.length)}%)`;
         }, 2000);
 
         const modal = document.getElementById('photoModal');

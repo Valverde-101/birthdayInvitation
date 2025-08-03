@@ -240,26 +240,27 @@ header p {
 
 .carousel {
     position: relative;
-    height: 250px;
+    height: 150px;
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.carousel img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+.carousel-track {
+    display: flex;
     height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    cursor: pointer;
+    transition: transform 0.5s ease;
 }
 
-.carousel img.active {
-    opacity: 1;
+.carousel-track img {
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 3px dashed var(--accent1);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
 }
 
 .photo-modal {
@@ -281,6 +282,7 @@ header p {
     border: 10px solid var(--accent1);
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    object-fit: contain;
 }
 
 .close-modal {
