@@ -1,3 +1,73 @@
+// Configuration
+const celebrantName = 'Marita';
+const celebrantAge = 60;
+const eventStart = new Date('2025-08-24T18:30:00');
+const eventEnd = new Date('2025-08-24T22:00:00');
+
+function getOrdinalEn(n) {
+    const s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+const titleEN = `${celebrantName}'s ${getOrdinalEn(celebrantAge)} Birthday Party!`;
+const titleES = `¡Fiesta del ${celebrantAge}º cumpleaños de ${celebrantName}!`;
+
+function formatDate(date, lang) {
+    return date.toLocaleDateString(lang, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function formatTime(start, end, lang) {
+    const opts = { hour: 'numeric', minute: '2-digit' };
+    return `${start.toLocaleTimeString(lang, opts)} - ${end.toLocaleTimeString(lang, opts)}`;
+}
+
+function updateEventInfo() {
+    const dateEl = document.getElementById('eventDate');
+    const timeEl = document.getElementById('eventTime');
+    const locale = currentLanguage === 'en' ? 'en-US' : 'es-ES';
+    if (dateEl) dateEl.textContent = formatDate(eventStart, locale);
+    if (timeEl) timeEl.textContent = formatTime(eventStart, eventEnd, locale);
+}
+
+function applyConfiguration() {
+    const titleEl = document.getElementById('pageTitle');
+    if (titleEl) {
+        titleEl.setAttribute('data-en', titleEN);
+        titleEl.setAttribute('data-es', titleES);
+        titleEl.textContent = currentLanguage === 'en' ? titleEN : titleES;
+    }
+
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) ogTitle.setAttribute('content', titleES);
+
+    const mainTitle = document.getElementById('mainTitle');
+    if (mainTitle) {
+        mainTitle.setAttribute('data-en', titleEN);
+        mainTitle.setAttribute('data-es', titleES);
+        mainTitle.textContent = currentLanguage === 'en' ? titleEN : titleES;
+    }
+
+    const fallbackImg = document.getElementById('videoFallback');
+    if (fallbackImg) fallbackImg.setAttribute('alt', `${celebrantName}'s Birthday Animation`);
+
+    const rsvpSubject = document.getElementById('rsvpSubject');
+    if (rsvpSubject) rsvpSubject.value = `RSVP for ${celebrantName}'s Birthday Party!`;
+
+    const messageLabel = document.getElementById('messageLabel');
+    if (messageLabel) {
+        messageLabel.setAttribute('data-en', `Message for ${celebrantName} (optional):`);
+        messageLabel.setAttribute('data-es', `Mensaje para ${celebrantName} (opcional):`);
+        messageLabel.textContent = currentLanguage === 'en'
+            ? `Message for ${celebrantName} (optional):`
+            : `Mensaje para ${celebrantName} (opcional):`;
+    }
+}
+
 // Language toggle functionality
 let currentLanguage = 'es';
 
@@ -44,18 +114,18 @@ function switchLanguage(lang) {
         updateMapToggleText(toggleMapBtn, isCollapsed);
     }
 
+    updateEventInfo();
     updateCountdown();
 }
 
 // Countdown timer
-const eventDate = new Date('August 24, 2025 18:30:00');
 let countdownInterval;
 
 function updateCountdown() {
     const countdownEl = document.getElementById('countdown');
     if (!countdownEl) return;
     const now = new Date();
-    const diff = eventDate - now;
+    const diff = eventStart - now;
 
     if (diff <= 0) {
         countdownEl.textContent = currentLanguage === 'en' ?
@@ -79,8 +149,29 @@ function updateCountdown() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    applyConfiguration();
+    updateEventInfo();
     updateCountdown();
     countdownInterval = setInterval(updateCountdown, 1000);
+
+    const music = document.getElementById('backgroundMusic');
+    if (music) {
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                const btn = document.createElement('button');
+                btn.id = 'musicToggle';
+                btn.setAttribute('data-en', 'Play Music');
+                btn.setAttribute('data-es', 'Reproducir música');
+                btn.textContent = currentLanguage === 'en' ? 'Play Music' : 'Reproducir música';
+                btn.addEventListener('click', () => {
+                    music.play();
+                    btn.remove();
+                });
+                document.body.appendChild(btn);
+            });
+        }
+    }
 });
 
 // Modify your form submission code

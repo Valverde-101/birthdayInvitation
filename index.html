@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-en="Marita’s 60th birthday party!">¡Fiesta del 60º cumpleaños de Marita!</title>
+    <title id="pageTitle"></title>
     <link rel="stylesheet" href="styles.css" />
 
     <!-- Favicon -->
@@ -27,7 +27,7 @@
     <link rel="manifest" href="media/site.webmanifest" />
 
     <!-- Social Media Sharing -->
-    <meta property="og:title" content="¡Fiesta del 2º cumpleaños de Muktika!" />
+    <meta id="ogTitle" property="og:title" content="" />
     <meta
       property="og:description"
       content="¡Únete a nosotros para celebrar este día tan especial!"
@@ -36,6 +36,7 @@
     <meta property="og:url" content="https://shubhshackyard.github.io/birthdayInvitation" />
   </head>
   <body>
+    <audio id="backgroundMusic" src="media/background-music.mp3" loop></audio>
     <div class="container">
       <div class="language-toggle">
         <button id="toggleLanguage" class="lang-btn">English</button>
@@ -43,12 +44,7 @@
 
       <header>
         <div class="balloons">🎈🎀🎈</div>
-        <h1
-          data-en="Muktika's 2nd Birthday Party!"
-          data-es="¡Fiesta del 2º cumpleaños de Muktika!"
-        >
-          ¡Fiesta del 2º cumpleaños de Muktika!
-        </h1>
+        <h1 id="mainTitle"></h1>
 
         <div class="video-container">
           <!-- Video element - now prioritized -->
@@ -71,13 +67,13 @@
           
           <!-- Simplified fallback - GIF only -->
           <div id="fallbackContainer" style="display: none;">
-            <img 
-              id="videoFallback" 
-              src="media/birthday-animation.gif" 
-              alt="Muktika's Birthday Animation"
-              width="100%" 
-              height="auto" 
-            />
+              <img
+                id="videoFallback"
+                src="media/birthday-animation.gif"
+                alt=""
+                width="100%"
+                height="auto"
+              />
           </div>
         </div>
 
@@ -93,10 +89,10 @@
       <div class="event-details">
         <h2 data-en="Party Details" data-es="Detalles de la fiesta">Detalles de la fiesta</h2>
         <p>
-          <strong data-en="Date:" data-es="Fecha:">Fecha:</strong> Lunes, 24 de agosto de 2025
+          <strong data-en="Date:" data-es="Fecha:">Fecha:</strong> <span id="eventDate"></span>
         </p>
         <p>
-          <strong data-en="Time:" data-es="Hora:">Hora:</strong> 6:30 PM - 10:00 PM
+          <strong data-en="Time:" data-es="Hora:">Hora:</strong> <span id="eventTime"></span>
         </p>
         <p>
           <strong data-en="Time remaining:" data-es="Tiempo restante:">Tiempo restante:</strong>
@@ -168,7 +164,8 @@
           <input
             type="hidden"
             name="_subject"
-            value="RSVP for Muktika's Birthday Party!"
+            id="rsvpSubject"
+            value=""
           />
           <input type="hidden" name="_cc" value="anshumohini@live.com" />
           <input
@@ -255,12 +252,7 @@
           </div>
 
           <div class="form-group">
-            <label
-              for="message"
-              data-en="Message for Muktika (optional):"
-              data-es="Mensaje para Muktika (opcional):"
-              >Mensaje para Muktika (opcional):</label
-            >
+            <label for="message" id="messageLabel"></label>
             <textarea id="message" name="message" rows="3"></textarea>
           </div>
 
