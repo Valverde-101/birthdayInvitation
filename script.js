@@ -21,9 +21,17 @@ function formatDate(date, lang) {
     });
 }
 
-function formatTime(start, end, lang) {
-    const opts = { hour: 'numeric', minute: '2-digit' };
-    return `${start.toLocaleTimeString(lang, opts)} - ${end.toLocaleTimeString(lang, opts)}`;
+function to12Hour(date) {
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${hours}:${minutes} ${ampm}`;
+}
+
+function formatTime(start, end) {
+    return `${to12Hour(start)} - ${to12Hour(end)}`;
 }
 
 function updateEventInfo() {
@@ -31,7 +39,7 @@ function updateEventInfo() {
     const timeEl = document.getElementById('eventTime');
     const locale = currentLanguage === 'en' ? 'en-US' : 'es-ES';
     if (dateEl) dateEl.textContent = formatDate(eventStart, locale);
-    if (timeEl) timeEl.textContent = formatTime(eventStart, eventEnd, locale);
+    if (timeEl) timeEl.textContent = formatTime(eventStart, eventEnd);
 }
 
 function applyConfiguration() {
@@ -156,21 +164,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const music = document.getElementById('backgroundMusic');
     if (music) {
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                const btn = document.createElement('button');
-                btn.id = 'musicToggle';
-                btn.setAttribute('data-en', 'Play Music');
-                btn.setAttribute('data-es', 'Reproducir música');
-                btn.textContent = currentLanguage === 'en' ? 'Play Music' : 'Reproducir música';
-                btn.addEventListener('click', () => {
-                    music.play();
-                    btn.remove();
-                });
-                document.body.appendChild(btn);
-            });
-        }
+        const btn = document.createElement('button');
+        btn.id = 'musicToggle';
+
+        const updateIcon = () => {
+            btn.textContent = music.paused ? '🔇' : '🔊';
+        };
+
+        btn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().catch(() => {});
+            } else {
+                music.pause();
+            }
+            updateIcon();
+        });
+
+        document.body.appendChild(btn);
+
+        const attemptPlay = () => {
+            music.play().catch(() => {});
+            updateIcon();
+        };
+
+        attemptPlay();
+        window.addEventListener('load', attemptPlay);
     }
 });
 
