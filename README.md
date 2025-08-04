@@ -1,94 +1,94 @@
-# Birthday Invitation Website
+# Sitio Web de Invitación de Cumpleaños
 
-A beautiful, interactive digital birthday invitation. This responsive website features animations, bilingual support (English/Spanish), and a user-friendly RSVP system.
+Una hermosa e interactiva invitación digital de cumpleaños. Este sitio web responsivo presenta animaciones, soporte bilingüe (inglés/español) y un sistema RSVP fácil de usar.
 
 ![Preview of the invitation website](media/og-image.jpg)
 
-## Features
+## Características
 
-- 🎬 Eye-catching video/animation greeting
-- 🌍 Bilingual support (English and Hindi)
-- 📝 Interactive RSVP form with FormSpree integration
-- 🗺️ Interactive location map with Google Maps
-- 🎉 Celebratory animations (confetti and balloons)
-- 📱 Fully responsive design for all devices
-- 🔄 Form validation and error handling
+- 🎬 Saludo con video/animación llamativo  
+- 🌍 Soporte bilingüe (inglés e hindi)  
+- 📝 Formulario RSVP interactivo con integración de FormSpree  
+- 🗺️ Mapa de ubicación interactivo con Google Maps  
+- 🎉 Animaciones de celebración (confeti y globos)  
+- 📱 Diseño totalmente responsivo para todos los dispositivos  
+- 🔄 Validación de formulario y manejo de errores  
 
-## Live Demo
+## Demo en Vivo
 
-Visit the live invitation at: [https://shubhshackyard.github.io/birthdayInvitation/](https://shubhshackyard.github.io/birthdayInvitation/)
+Visita la invitación en vivo en: [https://shubhshackyard.github.io/birthdayInvitation/](https://shubhshackyard.github.io/birthdayInvitation/)
 
-## Technologies Used
+## Tecnologías Utilizadas
 
-- HTML5
-- CSS3 (with animations)
-- JavaScript (vanilla)
-- FormSpree (form handling)
-- GitHub Pages (hosting)
+- HTML5  
+- CSS3 (con animaciones)  
+- JavaScript (vanilla)  
+- FormSpree (gestión de formularios)  
+- GitHub Pages (hospedaje)  
 
-## Setup and Installation
+## Configuración e Instalación
 
-1. **Clone the repository**
+1. **Clonar el repositorio**
    ```bash
    git clone https://github.com/shubhshackyard/birthdayInvitation.git
    cd birthdayInvitation
    ```
 
-2. **Test locally**
-   - Open `index.html` in your browser to test the site locally
-   - Or use a local server: `python -m http.server` and visit `http://localhost:8000`
+2. **Probar localmente**
+   - Abre `index.html` en tu navegador para probar el sitio localmente  
+   - O usa un servidor local: `python -m http.server` y visita `http://localhost:8000`
 
-3. **Deploy to GitHub Pages**
-   - Push changes to the `main` branch
-   - GitHub Actions will automatically deploy your site
+3. **Desplegar en GitHub Pages**
+   - Sube los cambios a la rama `main`  
+   - GitHub Actions desplegará automáticamente tu sitio  
 
-## Customization Guide
+## Guía de Personalización
 
-### Basic Information
+### Información Básica
 
-Edit the following in `index.html`:
-- Name, date, and party details
-- Location information and map embed
-- Contact information
+Edita lo siguiente en `index.html`:
+- Nombre, fecha y detalles del evento  
+- Información de la ubicación y mapa incrustado  
+- Información de contacto  
 
-### Media Assets
+### Recursos Multimedia
 
-Replace the following files in the `media` folder:
-- `birthday-video.mp4` - Main greeting video
-- `birthday-animation.gif` - Fallback animation if video doesn't load
-- `video-placeholder.jpg` - Poster image for video
-- `og-image.jpg` - Preview image for social media sharing
-- `favicon.ico` and related files - Website icon
+Reemplaza los siguientes archivos en la carpeta `media`:
+- `birthday-video.mp4` - Video principal de bienvenida  
+- `birthday-animation.gif` - Animación de respaldo si el video no se carga  
+- `video-placeholder.jpg` - Imagen de portada del video  
+- `og-image.jpg` - Imagen de vista previa para compartir en redes sociales  
+- `favicon.ico` y archivos relacionados - Ícono del sitio web  
 
-### Form Integration
+### Integración del Formulario
 
-The RSVP form is configured to work with FormSpree. To use your own form:
-1. Create an account at [FormSpree.io](https://formspree.io/)
-2. Update the form action URL in `index.html`
+El formulario RSVP está configurado para funcionar con FormSpree. Para usar tu propio formulario:  
+1. Crea una cuenta en [FormSpree.io](https://formspree.io/)  
+2. Actualiza la URL de acción del formulario en `index.html`  
 
-### Styling
+### Estilos
 
-The site's appearance can be customized by editing:
-- `styles.css` - For colors, fonts, spacing, etc.
-- Add custom animations by modifying the animation functions in `script.js`
+La apariencia del sitio puede personalizarse editando:
+- `styles.css` - Para colores, fuentes, espaciado, etc.  
+- Agrega animaciones personalizadas modificando las funciones de animación en `script.js`  
 
-## Browser Compatibility
+## Compatibilidad con Navegadores
 
-- Chrome, Firefox, Safari, Edge (latest versions)
-- Mobile browsers on iOS and Android
-- Includes fallbacks for older browsers
+- Chrome, Firefox, Safari, Edge (últimas versiones)  
+- Navegadores móviles en iOS y Android  
+- Incluye compatibilidad con navegadores antiguos  
 
-## Credits
+## Créditos
 
-- Animations powered by Web Animations API
-- Icons from Emoji set
-- Map integration via Google Maps
-- Form handling by FormSpree
+- Animaciones impulsadas por Web Animations API  
+- Íconos del conjunto de Emojis  
+- Integración del mapa vía Google Maps  
+- Gestión de formularios por FormSpree  
 
-## License
+## Licencia
 
-This project is available for personal use and learning. For commercial use, please contact the author.
+Este proyecto está disponible para uso personal y educativo. Para uso comercial, por favor contacta al autor.
 
 ---
 
-Created with ❤️ by [ShubhShackyard](https://github.com/shubhshackyard)
+Creado de formato inicial [ShubhShackyard](https://github.com/shubhshackyard)
