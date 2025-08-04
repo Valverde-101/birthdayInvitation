@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (music) {
         const btn = document.createElement('button');
         btn.id = 'musicToggle';
+        btn.className = 'fancy-btn floating-btn';
         btn.textContent = '🔊';
         btn.addEventListener('click', () => {
             if (music.paused) {
