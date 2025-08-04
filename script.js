@@ -77,10 +77,10 @@ let currentLanguage = 'es';
 document.getElementById('toggleLanguage').addEventListener('click', function() {
     if (currentLanguage === 'es') {
         switchLanguage('en');
-        this.textContent = 'Español';
+        this.textContent = 'ES';
     } else {
         switchLanguage('es');
-        this.textContent = 'English';
+        this.textContent = 'EN';
     }
 });
 
@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (music) {
         const btn = document.createElement('button');
         btn.id = 'musicToggle';
+        btn.className = 'fancy-btn floating-btn';
         btn.textContent = '🔊';
         btn.addEventListener('click', () => {
             if (music.paused) {
