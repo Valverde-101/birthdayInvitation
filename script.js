@@ -77,10 +77,10 @@ let currentLanguage = 'es';
 document.getElementById('toggleLanguage').addEventListener('click', function() {
     if (currentLanguage === 'es') {
         switchLanguage('en');
-        this.textContent = 'Español';
+        this.textContent = 'ES';
     } else {
         switchLanguage('es');
-        this.textContent = 'English';
+        this.textContent = 'EN';
     }
 });
 
